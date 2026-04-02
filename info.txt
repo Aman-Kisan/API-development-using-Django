@@ -1,0 +1,9 @@
+django old version = 3.1.12
+
+two options for DB : 1. SQL -- django ORM is used
+                     2. NoSQL -- djongo module handles with django ORM
+                                pymongo module will not follow django ORM
+
+django superuser:
+    username = "user1"
+    password = "123"
