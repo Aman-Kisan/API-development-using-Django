@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
+from django.http import Http404
 
 
 # function based views
@@ -81,3 +82,30 @@ class Employees(APIView):
             serializer.save()
             return Response(serializer.data,status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class EmployeeDetails(APIView):
+
+    def get_object(self,pk):
+        try:
+            return Employee.objects.get(id=pk)
+        except Employee.DoesNotExist:
+            raise Http404                   # why this works not the return Response ?
+        
+    def get(self,request,pk):
+        query_set = self.get_object(pk)
+        serializer = EmployeeSerializer(query_set)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    
+    def put(self,request,pk):
+        query_set = self.get_object(pk)
+        serializer = EmployeeSerializer(query_set,data=request.data)            #intake the data from DB and data came with the request -- So that updation can be made for that data
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status =status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self,request,pk):
+        query_set = self.get_object(pk)
+        query_set.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

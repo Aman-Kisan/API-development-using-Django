@@ -1,0 +1,5 @@
+*.txt
+api/__pycache__/
+employees/__pycache__/*.pyc
+origin/__pycache__/*.pyc
+students/__pycache__/*.pyc
