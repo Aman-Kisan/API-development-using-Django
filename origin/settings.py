@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'students',
     'employees',
-    'api'
+    'api',
+    'blogs',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -130,5 +132,12 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
+    # this below part is global pagination
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE':2,
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend',],      #changing default filter for the views to the new django_filter
+    'SEARCH_PARAM': 'q',          # setting the parameter name in the URL query for search filter only
+    'ORDERING_PARAM':'order-by',
 }
